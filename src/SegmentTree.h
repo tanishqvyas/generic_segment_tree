@@ -20,7 +20,7 @@ public:
     seg_tree(ptr_t first, ptr_t last, int size);
     friend ostream &operator<<(ostream &o, const seg_tree<ptr_t> &s)
     {
-        for (int i = 0; i <=s.size_; i++)
+        for (int i = 0; i <= s.size_; i++)
         {
             o << s.myTree[i] << "\t";
         }
@@ -29,9 +29,8 @@ public:
         return o;
     }
 
+    int query(const ptr_t head, ptr_t start, ptr_t end, int L, int R, int node);
     // void update()
-
-    // void query()
 };
 
 #endif
