@@ -1,10 +1,9 @@
 #include <iostream>
 using namespace std;
 #include <vector>
-// #include "./src/SegmentTree.h"
 #include "./src/SegmentTree.cpp"
 #include <limits.h>
-// template<typename T>
+
 struct Add
 {
     int operator()()
@@ -52,17 +51,31 @@ struct MinNumber
 };
 
 
+
+struct Up{
+
+    int operator()(int a){
+        return a;
+    }
+
+};
+
 int main(int argc, char const *argv[])
 {
-    vector<int> v = {-10, -9, -1, -3, -3};
+    vector<int> v = {1,2,3,4,5};
 
     vector<int>::iterator it;
 
-    seg_tree<vector<int>::iterator, Add> s(begin(v), end(v) - 1, v.size());
+    seg_tree<vector<int>::iterator, Add, Up> s(begin(v), end(v) - 1, v.size());
+
+    cout<<s<<"\n";
+    
+    s.update(begin(v),begin(v),end(v)-1,3,0,6);
+
+    cout<<s<<"\n";
 
     auto val = s.query(v.begin(), v.begin(), end(v) - 1, 1, 4, 0);
-
-    cout << val << "\n";
+    cout << val << " ---\n";
 
     return 0;
 }

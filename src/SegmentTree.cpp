@@ -4,18 +4,19 @@ using namespace std;
 #include "SegmentTree.h"
 #include "./helper/helper.cpp"
 
-template <typename ptr_t, typename functor>
-seg_tree<ptr_t, functor>::seg_tree(ptr_t start, ptr_t end, int size) : size_(2 * size - 1)
+template <typename ptr_t, typename functor,typename up_functor>
+seg_tree<ptr_t, functor, up_functor>::seg_tree(ptr_t start, ptr_t end, int size) : size_(2 * size - 1)
 {
     // Initializing empty tree with all  nodes with a value of 0
     myTree.assign(size_, 0);
+    // lazyTree.assign(size_, 0);
 
     // Call Create Segment Tree Function
     CreateSegTree_(start, end, 0);
 }
 
-template <typename ptr_t, typename functor>
-void seg_tree<ptr_t, functor>::CreateSegTree_(ptr_t start, ptr_t end, int node)
+template <typename ptr_t, typename functor, typename up_functor>
+void seg_tree<ptr_t, functor, up_functor>::CreateSegTree_(ptr_t start, ptr_t end, int node)
 {
     // Base condition ----------------->
     if (start == end)
@@ -36,8 +37,35 @@ void seg_tree<ptr_t, functor>::CreateSegTree_(ptr_t start, ptr_t end, int node)
     myTree[node] = functor()(myTree[2 * node + 1], myTree[2 * node + 2]);
 }
 
-template <typename ptr_t, typename functor>
-typename seg_tree<ptr_t,functor> ::data_type seg_tree<ptr_t, functor>::query(const ptr_t head, ptr_t start, ptr_t end, int L, int R, int node)
+//functor --> class inheritedd 2.>
+template <typename ptr_t, typename functor, typename up_functor>
+void seg_tree<ptr_t,functor,up_functor>::update(const ptr_t head, ptr_t start, ptr_t end, int idx, int node, data_type val)
+{
+    if (start == end)
+    {
+        myTree[node] = up_functor()(val);
+        return;
+    }
+
+    ptr_t mid = CalcMid(start, end);
+
+    int s_to_h = CalcDiff(head, start);
+    int e_to_h = CalcDiff(head, mid);
+
+    if (s_to_h <= idx && idx <= e_to_h)
+    {
+        update(head, start, mid, idx, 2 * node + 1, val);
+    }
+    else
+    {
+        update(head, mid + 1, end, idx, 2 * node + 2, val);
+    }
+
+    myTree[node] = functor()(myTree[2 * node + 1], myTree[2 * node + 2]);
+}
+
+template <typename ptr_t, typename functor , typename up_functor >
+typename seg_tree<ptr_t, functor, up_functor>::data_type seg_tree<ptr_t, functor,up_functor>::query(const ptr_t head, ptr_t start, ptr_t end, int L, int R, int node)
 {
     int s_to_h = CalcDiff(head, start);
     int e_to_h = CalcDiff(head, end);
@@ -46,7 +74,6 @@ typename seg_tree<ptr_t,functor> ::data_type seg_tree<ptr_t, functor>::query(con
     {
         return functor()();
     }
-
 
     if (L <= s_to_h && R >= (e_to_h))
     {
@@ -58,8 +85,5 @@ typename seg_tree<ptr_t,functor> ::data_type seg_tree<ptr_t, functor>::query(con
     data_type left = query(head, start, mid, L, R, 2 * node + 1);
     data_type right = query(head, mid + 1, end, L, R, 2 * node + 2);
 
-    return functor()(left,right);
+    return functor()(left, right);
 }
-
-
-
