@@ -1,2 +1,3 @@
 Serial Number, Topic, Link
-1, 
+1, Function return tpye, https://stackoverflow.com/questions/29184944/get-the-return-type-of-a-method-from-a-member-function-pointer
+2, Decltype tutorial , https://www.geeksforgeeks.org/type-inference-in-c-auto-and-decltype/

@@ -69,5 +69,5 @@ int CalcDiff_(ptr_t first, ptr_t last, random_access_iterator_tag)
 template <typename ptr_t>
 int CalcDiff(ptr_t first, ptr_t last)
 {
-    return CalcDiff_(first, last, typename iterator_traits<ptr_t>::iterator_category())
+    return CalcDiff_(first, last, typename iterator_traits<ptr_t>::iterator_category());
 }

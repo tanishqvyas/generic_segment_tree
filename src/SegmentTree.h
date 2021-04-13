@@ -2,12 +2,12 @@
 
 #define SEGMENT_TREE_H
 
-template <typename ptr_t>
+template <typename ptr_t, typename functor>
 class seg_tree
 {
 
 private:
-    typedef typename iterator_traits<ptr_t>::value_type data_type;
+    typedef decltype(functor()()) data_type;
 
     // Data
     int size_;
@@ -18,7 +18,7 @@ private:
 
 public:
     seg_tree(ptr_t first, ptr_t last, int size);
-    friend ostream &operator<<(ostream &o, const seg_tree<ptr_t> &s)
+    friend ostream &operator<<(ostream &o, const seg_tree<ptr_t, functor> &s)
     {
         for (int i = 0; i <= s.size_; i++)
         {
@@ -29,7 +29,7 @@ public:
         return o;
     }
 
-    int query(const ptr_t head, ptr_t start, ptr_t end, int L, int R, int node);
+    data_type query(const ptr_t head, ptr_t start, ptr_t end, int L, int R, int node);
     // void update()
 };
 
