@@ -38,13 +38,15 @@ void seg_tree<ptr_t>::CreateSegTree_(ptr_t start, ptr_t end, int node)
 template <typename ptr_t>
 int seg_tree<ptr_t>::query(const ptr_t head, ptr_t start, ptr_t end, int L, int R, int node)
 {
+    int s_to_h = CalcDiff(head, start);
+    int e_to_h = CalcDiff(head, end);
 
-    if (R < (start - head) || (end - head) < L)
+    if (R < s_to_h || (s_to_h < L)
     {
         return 0;
     }
 
-    if (L <= (start - head) && R >= (end - head))
+    if (L <= s_to_h && R >= (s_to_h))
     {
         return myTree[node];
     }
