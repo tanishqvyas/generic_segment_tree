@@ -39,7 +39,7 @@ void seg_tree<ptr_t, functor, up_functor>::CreateSegTree_(ptr_t start, ptr_t end
 
 //functor --> class inheritedd 2.>
 template <typename ptr_t, typename functor, typename up_functor>
-void seg_tree<ptr_t,functor,up_functor>::update(const ptr_t head, ptr_t start, ptr_t end, int idx, int node, data_type val)
+void seg_tree<ptr_t,functor,up_functor>::update(const ptr_t head, ptr_t start, ptr_t end, int l,int r, int node, data_type val)
 {
    
     int s_to_h = CalcDiff(head, start);
@@ -52,7 +52,7 @@ void seg_tree<ptr_t,functor,up_functor>::update(const ptr_t head, ptr_t start, p
     if (start == end)
     {   
 
-        myTree[node] = update_functor(val);
+        myTree[node] = up_functor()(val);
         return;
     }
 

@@ -32,7 +32,7 @@ public:
     }
 
     data_type query(const ptr_t head, ptr_t start, ptr_t end, int L, int R, int node);
-    void update(const ptr_t head, ptr_t start, ptr_t end , int idx, int node, data_type val);
+    void update(const ptr_t head, ptr_t start, ptr_t end , int l, int r,int node, data_type val);
 
 };
 
