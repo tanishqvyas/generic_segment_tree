@@ -50,29 +50,37 @@ struct MinNumber
     };
 };
 
+struct Up
+{
 
-
-struct Up{
-
-    int operator()(int a){
+    int operator()(int myTree, int a)
+    {
         return a;
     }
+};
 
+struct inc
+{
+    int operator()(int myTree, int val)
+    {
+        return myTree  + val;
+    }
 };
 
 int main(int argc, char const *argv[])
 {
-    vector<int> v = {1,2,3,4,5};
+    vector<int> v = {1, 1, 1, 1, 1};
 
     vector<int>::iterator it;
 
-    seg_tree<vector<int>::iterator, Add, Up> s(begin(v), end(v) - 1, v.size());
+    seg_tree<vector<int>::iterator, Add> s(begin(v), end(v) - 1, v.size());
 
-    cout<<s<<"\n";
-    
-    s.update(begin(v),begin(v),end(v)-1,1,3,0,6);
+    cout << s << "\n";
 
-    cout<<s<<"\n";
+    s.update(begin(v), begin(v), end(v) - 1, 1, 2, 0, 6, inc());
+    s.update(begin(v), begin(v), end(v) - 1, 3, 4,0, 4, Up());
+
+    cout << s << "\n";
 
     auto val = s.query(v.begin(), v.begin(), end(v) - 1, 1, 4, 0);
     cout << val << " ---\n";

@@ -4,8 +4,8 @@ using namespace std;
 #include "SegmentTree.h"
 #include "./helper/helper.cpp"
 
-template <typename ptr_t, typename functor,typename up_functor>
-seg_tree<ptr_t, functor, up_functor>::seg_tree(ptr_t start, ptr_t end, int size) : size_(2 * size - 1)
+template <typename ptr_t, typename functor>
+seg_tree<ptr_t, functor>::seg_tree(ptr_t start, ptr_t end, int size) : size_(2 * size - 1)
 {
     // Initializing empty tree with all  nodes with a value of 0
     myTree.assign(size_, 0);
@@ -15,8 +15,8 @@ seg_tree<ptr_t, functor, up_functor>::seg_tree(ptr_t start, ptr_t end, int size)
     CreateSegTree_(start, end, 0);
 }
 
-template <typename ptr_t, typename functor, typename up_functor>
-void seg_tree<ptr_t, functor, up_functor>::CreateSegTree_(ptr_t start, ptr_t end, int node)
+template <typename ptr_t, typename functor>
+void seg_tree<ptr_t, functor>::CreateSegTree_(ptr_t start, ptr_t end, int node)
 {
     // Base condition ----------------->
     if (start == end)
@@ -38,10 +38,11 @@ void seg_tree<ptr_t, functor, up_functor>::CreateSegTree_(ptr_t start, ptr_t end
 }
 
 //functor --> class inheritedd 2.>
-template <typename ptr_t, typename functor, typename up_functor>
-void seg_tree<ptr_t,functor,up_functor>::update(const ptr_t head, ptr_t start, ptr_t end, int l,int r, int node, data_type val)
+template <typename ptr_t, typename functor>
+template <typename up_functor>
+void seg_tree<ptr_t, functor>::update(const ptr_t head, ptr_t start, ptr_t end, int l, int r, int node, data_type val, up_functor update_functor)
 {
-   
+
     int s_to_h = CalcDiff(head, start);
     int e_to_h = CalcDiff(head, end);
     if (s_to_h > e_to_h || s_to_h > r || e_to_h < l)
@@ -50,24 +51,23 @@ void seg_tree<ptr_t,functor,up_functor>::update(const ptr_t head, ptr_t start, p
     }
 
     if (start == end)
-    {   
+    {
 
-        myTree[node] = up_functor()(val);
+        myTree[node] = update_functor(myTree[node], val);
         return;
     }
 
     ptr_t mid = CalcMid(start, end);
 
-    update(head, start, mid, l, r, 2 * node + 1, val);
+    update(head, start, mid, l, r, 2 * node + 1, val, update_functor);
 
-    update(head, mid + 1, end, l, r, 2 * node + 2, val);
+    update(head, mid + 1, end, l, r, 2 * node + 2, val, update_functor);
 
     myTree[node] = functor()(myTree[2 * node + 1], myTree[2 * node + 2]);
-
 }
 
-template <typename ptr_t, typename functor , typename up_functor >
-typename seg_tree<ptr_t, functor, up_functor>::data_type seg_tree<ptr_t, functor,up_functor>::query(const ptr_t head, ptr_t start, ptr_t end, int L, int R, int node)
+template <typename ptr_t, typename functor>
+typename seg_tree<ptr_t, functor>::data_type seg_tree<ptr_t, functor>::query(const ptr_t head, ptr_t start, ptr_t end, int L, int R, int node)
 {
     int s_to_h = CalcDiff(head, start);
     int e_to_h = CalcDiff(head, end);

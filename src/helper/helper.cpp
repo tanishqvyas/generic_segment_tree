@@ -57,7 +57,7 @@ int CalcDiff_(ptr_t first, ptr_t last, input_iterator_tag)
 template <typename ptr_t>
 int CalcDiff_(ptr_t first, ptr_t last, bidirectional_iterator_tag)
 {
-    return last-first;
+    return last - first;
 }
 
 template <typename ptr_t>
