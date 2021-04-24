@@ -70,7 +70,7 @@ int main(int argc, char const *argv[])
 
     cout<<s<<"\n";
     
-    s.update(begin(v),begin(v),end(v)-1,3,0,6);
+    s.update(begin(v),begin(v),end(v)-1,1,3,0,6);
 
     cout<<s<<"\n";
 
