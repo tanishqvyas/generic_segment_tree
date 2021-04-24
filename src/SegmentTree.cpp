@@ -41,27 +41,29 @@ void seg_tree<ptr_t, functor, up_functor>::CreateSegTree_(ptr_t start, ptr_t end
 template <typename ptr_t, typename functor, typename up_functor>
 void seg_tree<ptr_t,functor,up_functor>::update(const ptr_t head, ptr_t start, ptr_t end, int idx, int node, data_type val)
 {
-    if (start == end)
+   
+    int s_to_h = CalcDiff(head, start);
+    int e_to_h = CalcDiff(head, end);
+    if (s_to_h > e_to_h || s_to_h > r || e_to_h < l)
     {
-        myTree[node] = up_functor()(val);
+        return;
+    }
+
+    if (start == end)
+    {   
+
+        myTree[node] = update_functor(val);
         return;
     }
 
     ptr_t mid = CalcMid(start, end);
 
-    int s_to_h = CalcDiff(head, start);
-    int e_to_h = CalcDiff(head, mid);
+    update(head, start, mid, l, r, 2 * node + 1, val);
 
-    if (s_to_h <= idx && idx <= e_to_h)
-    {
-        update(head, start, mid, idx, 2 * node + 1, val);
-    }
-    else
-    {
-        update(head, mid + 1, end, idx, 2 * node + 2, val);
-    }
+    update(head, mid + 1, end, l, r, 2 * node + 2, val);
 
     myTree[node] = functor()(myTree[2 * node + 1], myTree[2 * node + 2]);
+
 }
 
 template <typename ptr_t, typename functor , typename up_functor >
