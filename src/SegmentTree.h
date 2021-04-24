@@ -9,12 +9,9 @@ class seg_tree
 private:
     typedef decltype(functor()()) data_type;
 
-    // Data
     int size_;
     vector<data_type> myTree;
-    // vector<data_type> lazyTree;
 
-    // Functiions
     void CreateSegTree_(ptr_t start, ptr_t end, int node);
 
 public:

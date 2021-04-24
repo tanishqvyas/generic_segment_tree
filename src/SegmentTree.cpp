@@ -4,12 +4,12 @@ using namespace std;
 #include "SegmentTree.h"
 #include "./helper/helper.cpp"
 
+//Create Seg Tree Function
 template <typename ptr_t, typename functor>
 seg_tree<ptr_t, functor>::seg_tree(ptr_t start, ptr_t end, int size) : size_(2 * size - 1)
 {
     // Initializing empty tree with all  nodes with a value of 0
     myTree.assign(size_, 0);
-    // lazyTree.assign(size_, 0);
 
     // Call Create Segment Tree Function
     CreateSegTree_(start, end, 0);
@@ -18,26 +18,25 @@ seg_tree<ptr_t, functor>::seg_tree(ptr_t start, ptr_t end, int size) : size_(2 *
 template <typename ptr_t, typename functor>
 void seg_tree<ptr_t, functor>::CreateSegTree_(ptr_t start, ptr_t end, int node)
 {
-    // Base condition ----------------->
+    // Base condition
     if (start == end)
     {
         myTree[node] = *start;
         return;
     }
 
-    // Recursive condition ------------>
-
     // Find the mid
     ptr_t mid = CalcMid(start, end);
+    
     // Compute valuesfor children
     CreateSegTree_(start, mid, 2 * node + 1);
     CreateSegTree_(mid + 1, end, 2 * node + 2);
 
-    // myTree[node] = myTree[2 * node + 1] + myTree[2 * node + 2];
     myTree[node] = functor()(myTree[2 * node + 1], myTree[2 * node + 2]);
 }
 
-//functor --> class inheritedd 2.>
+
+//Update Function
 template <typename ptr_t, typename functor>
 template <typename up_functor>
 void seg_tree<ptr_t, functor>::update(const ptr_t head, ptr_t start, ptr_t end, int l, int r, int node, data_type val, up_functor update_functor)
@@ -66,6 +65,9 @@ void seg_tree<ptr_t, functor>::update(const ptr_t head, ptr_t start, ptr_t end, 
     myTree[node] = functor()(myTree[2 * node + 1], myTree[2 * node + 2]);
 }
 
+
+
+// Query Functions
 template <typename ptr_t, typename functor>
 typename seg_tree<ptr_t, functor>::data_type seg_tree<ptr_t, functor>::query(const ptr_t head, ptr_t start, ptr_t end, int L, int R, int node)
 {
