@@ -3,6 +3,8 @@ using namespace std;
 #include <vector>
 #include "./src/segTree.h"
 
+
+//Following code contians example of getting susbstring of a string using segment trees
 template <typename T1, typename T2 = T1>
 struct str
 {

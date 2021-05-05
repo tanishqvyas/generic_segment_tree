@@ -1,7 +1,8 @@
 #include <iostream>
-using namespace std;
 #include <vector>
 #include "./src/segTree.h"
+
+using namespace std;
 
 int main(int argc, char const *argv[])
 {
