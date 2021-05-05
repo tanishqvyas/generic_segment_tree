@@ -9,10 +9,23 @@ template <typename ptr_t, typename functor>
 seg_tree<ptr_t, functor>::seg_tree(ptr_t start, ptr_t end, int size) : size_(2 * size - 1)
 {
     // Initializing empty tree with all  nodes with a value of 0
-    myTree.assign(size_, 0);
+    myTree.assign(size_, functor()());
 
     // Call Create Segment Tree Function
     CreateSegTree_(start, end, 0);
+}
+
+template <typename ptr_t, typename functor>
+seg_tree<ptr_t, functor>::seg_tree(seg_tree &s)
+{
+
+    this->myTree.assign(s.size_, functor()());
+    this->size_ = s.size_;
+    // cout<<s.size_<<" ---\n";
+    for (int i = 0; i < this->size_; i++)
+    {
+        this->myTree[i] = s.myTree[i];
+    }
 }
 
 template <typename ptr_t, typename functor>
@@ -22,19 +35,21 @@ void seg_tree<ptr_t, functor>::CreateSegTree_(ptr_t start, ptr_t end, int node)
     if (start == end)
     {
         myTree[node] = *start;
+        //cout << myTree[node] << " --\n";
         return;
     }
 
     // Find the mid
     ptr_t mid = CalcMid(start, end);
-    
+
+    // cout<<*mid<<"\n";
     // Compute valuesfor children
     CreateSegTree_(start, mid, 2 * node + 1);
     CreateSegTree_(mid + 1, end, 2 * node + 2);
 
     myTree[node] = functor()(myTree[2 * node + 1], myTree[2 * node + 2]);
+    // cout<<myTree[node]<<"\n";
 }
-
 
 //Update Function
 template <typename ptr_t, typename functor>
@@ -65,15 +80,13 @@ void seg_tree<ptr_t, functor>::update(const ptr_t head, ptr_t start, ptr_t end, 
     myTree[node] = functor()(myTree[2 * node + 1], myTree[2 * node + 2]);
 }
 
-
-
 // Query Functions
 template <typename ptr_t, typename functor>
 typename seg_tree<ptr_t, functor>::data_type seg_tree<ptr_t, functor>::query(const ptr_t head, ptr_t start, ptr_t end, int L, int R, int node)
 {
     int s_to_h = CalcDiff(head, start);
     int e_to_h = CalcDiff(head, end);
-
+    //cout<<L<<" --- "<<R<<"\n";
     if (R < s_to_h || (e_to_h < L))
     {
         return functor()();

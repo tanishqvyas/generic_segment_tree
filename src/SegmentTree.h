@@ -16,9 +16,11 @@ private:
 
 public:
     seg_tree(ptr_t first, ptr_t last, int size);
+    seg_tree(seg_tree &s);
+
     friend ostream &operator<<(ostream &o, const seg_tree<ptr_t, functor> &s)
     {
-        for (int i = 0; i <= s.size_; i++)
+        for (int i = 0; i < s.size_; i++)
         {
             o << s.myTree[i] << "\t";
         }
