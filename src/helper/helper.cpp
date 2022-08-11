@@ -2,13 +2,21 @@
 using namespace std;
 #include "helper.h"
 
+/*
+
+Helper class to calcualte the middle element and length between 
+different types of iterators.
+
+*/
+
+// Random Access Iterator
 template <typename ptr_t>
 ptr_t CalcMid_(ptr_t first, ptr_t last, random_access_iterator_tag)
 {
     return first + (last - first) / 2;
 }
 
-// bidirectional iterator
+// Bidirectional Iterator
 template <typename ptr_t>
 ptr_t CalcMid_(ptr_t first, ptr_t last, bidirectional_iterator_tag)
 {
@@ -18,7 +26,8 @@ ptr_t CalcMid_(ptr_t first, ptr_t last, bidirectional_iterator_tag)
     }
     return first;
 }
-// input iterator
+
+// Input Iterator
 template <typename ptr_t>
 ptr_t CalcMid_(ptr_t first, ptr_t last, input_iterator_tag)
 {

@@ -4,6 +4,9 @@ using namespace std;
 #include "SegmentTree.h"
 #include "./helper/helper.cpp"
 
+// Implementation file for Generic Segment Tree Library.
+
+
 //Create Seg Tree Function
 template <typename ptr_t, typename functor>
 seg_tree<ptr_t, functor>::seg_tree(ptr_t start, ptr_t end, int size) : size_(2 * size - 1)

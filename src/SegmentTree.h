@@ -2,6 +2,8 @@
 
 #define SEGMENT_TREE_H
 
+// Declaration file for the Generic Segment Tree Library.
+
 template <typename ptr_t, typename functor>
 class seg_tree
 {

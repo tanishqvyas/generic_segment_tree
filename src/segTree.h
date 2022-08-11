@@ -1,7 +1,7 @@
 #include "./SegmentTree.cpp"
 #include <limits.h>
 
-/* QUERY FUNCTORS */
+/* Helper Query Functors */
 
 template <typename T1, typename T2 = T1>
 struct Add

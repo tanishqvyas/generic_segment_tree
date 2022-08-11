@@ -1,3 +1,5 @@
 **/a.out
 **/*.exe
 **/*.o
+./references.csv
+./PlanOfAction.md

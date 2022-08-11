@@ -4,6 +4,15 @@
 
 using namespace std;
 
+/*
+
+This class shows on how to use the library and depicts
+an addition example on a vector and how to perfrom 
+updates and range queries.
+
+*/
+
+
 int main(int argc, char const *argv[])
 {
      vector<int> v = {1, 2, 3, 4, 5};
@@ -12,18 +21,15 @@ int main(int argc, char const *argv[])
 
      seg_tree<vector<int>::iterator, Add<int>> s(begin(v), end(v) - 1, v.size());
 
-     // cout << "Created Segment Tree --> \n"
-     //      << s << "\n";
-
      int l1 = 1;
      int r1 = 2;
      int l2 = 3;
      int r2 = 4;
 
      seg_tree<vector<int>::iterator, Add<int>> s1(s);
-     // s1=s2
 
      cout << s1 << " -----\n";
+     
      //void update(const ptr_t head, ptr_t start, ptr_t end, int l, int r, int node, data_type val, up_functor update_functor);
 
      s1.update(begin(v), begin(v), end(v) - 1, l1, r1, 0, 6, addEq<int>());
@@ -44,6 +50,7 @@ int main(int argc, char const *argv[])
      int r3 = 4;
 
      //data_type query(const ptr_t head, ptr_t start, ptr_t end, int L, int R, int node);
+     
      auto val = s1.query(v.begin(), v.begin(), end(v) - 1, l3, r3, 0);
      cout << val << "\n";
 
